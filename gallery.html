@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Just a Few Messages... 💬</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(to top right, #fff0f7, #fdeff4);
+      color: #4b0c1d;
+      overflow-x: hidden;
+    }
+
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background-color: rgba(255, 240, 245, 0.95);
+      padding: 10px 0;
+      text-align: center;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+      z-index: 1000;
+    }
+
+    nav a {
+      margin: 0 20px;
+      text-decoration: none;
+      color: #d6336c;
+      font-weight: 600;
+      font-size: 1rem;
+      transition: color 0.3s ease;
+    }
+
+    nav a:hover {
+      color: #a3184d;
+    }
+
+    .chat-container {
+      margin-top: 100px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+      padding: 20px;
+    }
+
+    .chat-card {
+      background: #ffffffcc;
+      backdrop-filter: blur(5px);
+      margin: 20px 0;
+      padding: 15px 20px;
+      border-radius: 20px;
+      box-shadow: 0 4px 15px #f7c9dc55;
+      position: relative;
+      animation: fadeInUp 1s ease forwards;
+      opacity: 0;
+      transform: translateY(30px);
+    }
+
+    @keyframes fadeInUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .sender {
+      font-weight: bold;
+      margin-bottom: 5px;
+      color: #d6336c;
+    }
+
+    .message {
+      font-size: 1.1rem;
+    }
+
+    .bubble-heart {
+      position: absolute;
+      width: 15px;
+      height: 15px;
+      background: #f78fb3;
+      bottom: -10px;
+      right: 10px;
+      border-radius: 50% 50% 0 50%;
+      transform: rotate(-45deg);
+      animation: floatHeart 6s linear infinite;
+      opacity: 0.5;
+    }
+
+    @keyframes floatHeart {
+      0% {
+        transform: translateY(0) rotate(-45deg);
+        opacity: 0.7;
+      }
+      100% {
+        transform: translateY(-120vh) rotate(-45deg);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="index.html">🏠 Home</a>
+    <a href="hello.html">💬 First Hello</a>
+    <a href="reading.html">🌙 If You're Reading This</a>
+    <a href="messages.html">💖 Just a Few Messages</a>
+  </nav>
+
+  <div class="chat-container">
+    <div class="chat-card">
+      <div class="sender">Hamza:</div>
+      <div class="message">Such me single? Sai batau agar single ho toooo.</div>
+      <div class="bubble-heart"></div>
+    </div>
+
+    <div class="chat-card">
+      <div class="sender">MaNnu_QueEn🌸:</div>
+      <div class="message">Hmm Q kiya hua?</div>
+    </div>
+
+    <div class="chat-card">
+      <div class="sender">Hamza:</div>
+      <div class="message">Mujhe yaqeen nai a rha koi abhi bhi single ha meri tarah Instagram py. I can't believe this 😯</div>
+      <div class="bubble-heart"></div>
+    </div>
+
+    <div class="chat-card">
+      <div class="sender">MaNnu_QueEn🌸:</div>
+      <div class="message">Ohh acha...</div>
+    </div>
+
+    <div class="chat-card">
+      <div class="sender">MaNnu_QueEn🌸:</div>
+      <div class="message">Apka intro?</div>
+    </div>
+
+    <div class="chat-card">
+      <div class="sender">Hamza:</div>
+      <div class="message">My name Hamza. I am web developer.</div>
+    </div>
+
+    <div class="chat-card">
+      <div class="sender">MaNnu_QueEn🌸:</div>
+      <div class="message">From?</div>
+    </div>
+
+    <div class="chat-card">
+      <div class="sender">Hamza:</div>
+      <div class="message">Pakistan city Rawalpindi.</div>
+    </div>
+
+    <div class="chat-card">
+      <div class="sender">MaNnu_QueEn🌸:</div>
+      <div class="message">Ohh asha ahsa Uhnm</div>
+    </div>
+  </div>
+
+  <script>
+    function floatHeart() {
+      const heart = document.createElement('div');
+      heart.classList.add('bubble-heart');
+      heart.style.left = Math.random() * 100 + 'vw';
+      heart.style.animationDuration = 5 + Math.random() * 5 + 's';
+      document.body.appendChild(heart);
+
+      setTimeout(() => {
+        heart.remove();
+      }, 10000);
+    }
+
+    setInterval(floatHeart, 600);
+  </script>
+</body>
+</html>

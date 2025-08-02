@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MannuQueen 💖 I like You</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(to top right, #fff0f7, #ffd6e8, #ffc0cb);
+      color: #4b0c1d;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    .loader {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100vh;
+      width: 100vw;
+      background: #fff0f7;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      flex-direction: column;
+    }
+
+    .loader h2 {
+      font-size: 2rem;
+      color: #d6336c;
+      animation: pulse 1s infinite;
+    }
+
+    @keyframes pulse {
+      0% { opacity: 0.5; }
+      50% { opacity: 1; }
+      100% { opacity: 0.5; }
+    }
+
+    .heart-animate {
+      width: 60px;
+      height: 60px;
+      background: #ff6b81;
+      position: relative;
+      transform: rotate(-45deg);
+      animation: floatHeart 2s ease-in-out infinite;
+    }
+
+    .heart-animate::before,
+    .heart-animate::after {
+      content: '';
+      width: 60px;
+      height: 60px;
+      background: #ff6b81;
+      border-radius: 50%;
+      position: absolute;
+    }
+
+    .heart-animate::before {
+      top: -30px;
+      left: 0;
+    }
+
+    .heart-animate::after {
+      left: 30px;
+      top: 0;
+    }
+
+    @keyframes floatHeart {
+      0% { transform: rotate(-45deg) translateY(0); }
+      50% { transform: rotate(-45deg) translateY(-20px); }
+      100% { transform: rotate(-45deg) translateY(0); }
+    }
+
+    .content {
+      padding: 100px 20px;
+      text-align: center;
+      animation: fadeInUp 2s ease;
+    }
+
+    .content h1 {
+      font-size: 3rem;
+      color: #d6336c;
+      margin-bottom: 20px;
+    }
+
+    .content p {
+      font-size: 1.3rem;
+      line-height: 2;
+      color: #5a1034;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(40px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .floating {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background-color: pink;
+      border-radius: 50%;
+      animation: floatRandom 10s linear infinite;
+      opacity: 0.6;
+    }
+
+    @keyframes floatRandom {
+      0% { transform: translateY(0) rotate(0); }
+      100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+  <div class="loader" id="loader">
+    <div class="heart-animate"></div>
+    <h2>MannuQueen... Tumse milna meri zindagi ka sabse pyaara mod hai 💖</h2>
+  </div>
+
+  <div class="content" style="display:none;" id="mainContent">
+    <h1>I Like you</h1>
+    <p>Mannu... Tum se pehli baar baat hui aur laga jaise zindagi ek naye rang mein dhal gayi ho. Tum sirf ek naam nahi ho — tum meri muskurahat ho, mera sukoon ho.
+    <br><br>Har waqt ek hi khayal rehta hai — <strong>Tum.</strong> Tumhari muskurahat, tumhari baatain, tumhara cute andaz.
+    <br><br>Aur aaj... main seedha kehna chahta hoon: <strong>I Like you.</strong>
+    <br><br>Chahe tum Faisalabad ki ho, aur main Rawalpindi ka ho — dil ka connection jagah nahi dekhta.
+    <br><br>Kya tum meri zindagi ka woh page banogi jahan har din pyaar likha ho? 💌</p>
+  </div>
+
+  <script>
+    function createFloating() {
+      const el = document.createElement('div');
+      el.classList.add('floating');
+      el.style.left = Math.random() * 100 + 'vw';
+      el.style.animationDuration = 6 + Math.random() * 4 + 's';
+      el.style.backgroundColor = ['#ff69b4', '#ffc0cb', '#ff6b81', '#ffb6c1'][Math.floor(Math.random()*4)];
+      document.body.appendChild(el);
+      setTimeout(() => el.remove(), 10000);
+    }
+
+    setInterval(createFloating, 300);
+
+    setTimeout(() => {
+      document.getElementById('loader').style.display = 'none';
+      document.getElementById('mainContent').style.display = 'block';
+    }, 4000);
+  </script>
+</body>
+</html>

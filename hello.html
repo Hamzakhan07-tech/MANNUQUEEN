@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>If You're Reading This... 🌙</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(to bottom right, #fff0f5, #fdeff2);
+      color: #5a1034;
+      overflow-x: hidden;
+    }
+
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background-color: rgba(255, 240, 245, 0.95);
+      padding: 10px 0;
+      text-align: center;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+      z-index: 1000;
+    }
+
+    nav a {
+      margin: 0 20px;
+      text-decoration: none;
+      color: #d6336c;
+      font-weight: 600;
+      font-size: 1rem;
+      transition: color 0.3s ease;
+    }
+
+    nav a:hover {
+      color: #a3184d;
+    }
+
+    .container {
+      padding: 18vh 20px 10vh;
+      max-width: 700px;
+      margin: auto;
+      text-align: center;
+    }
+
+    .quote {
+      font-size: 1.5rem;
+      margin: 30px 0;
+      opacity: 0;
+      transform: translateY(40px);
+      animation: fadeUp 1.5s ease forwards;
+    }
+
+    .quote:nth-child(2) { animation-delay: 0.5s; }
+    .quote:nth-child(3) { animation-delay: 1.5s; }
+    .quote:nth-child(4) { animation-delay: 2.5s; }
+
+    @keyframes fadeUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .sparkle {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background: radial-gradient(#ffd6e8, transparent);
+      border-radius: 50%;
+      animation: floatSparkles 10s linear infinite;
+      pointer-events: none;
+    }
+
+    @keyframes floatSparkles {
+      0% { transform: translateY(100vh); opacity: 1; }
+      100% { transform: translateY(-10vh); opacity: 0; }
+    }
+
+    .footer-note {
+      margin-top: 60px;
+      font-size: 1rem;
+      color: #a34e6e;
+      opacity: 0.8;
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="index.html">🏠 Home</a>
+    <a href="hello.html">💬 First Hello</a>
+    <a href="reading.html">🌙 If You're Reading This</a>
+    <a href="gallery.html">📸 Gallery</a>
+  </nav>
+
+  <div class="container">
+    <div class="quote">Maybe I wasn’t supposed to meet you...</div>
+    <div class="quote">But I’m really glad I did.</div>
+    <div class="quote">Faisalabad — it sounded so far.</div>
+    <div class="quote">Now, it feels like a name my heart knows. 💖</div>
+
+    <div class="footer-note">If you're reading this, maybe fate already smiled. 🌸</div>
+  </div>
+
+  <script>
+    // Unique Sparkle Animation
+    function createSparkle() {
+      const sparkle = document.createElement('div');
+      sparkle.classList.add('sparkle');
+      // Random left position
+      sparkle.style.left = Math.random() * 100 + 'vw';
+      // Random size
+      const size = 8 + Math.random() * 12;
+      sparkle.style.width = size + 'px';
+      sparkle.style.height = size + 'px';
+      // Random color
+      const colors = ['#ffd6e8', '#ffe6fa', '#fffbe6', '#e6fff7', '#e6eaff'];
+      sparkle.style.background = `radial-gradient(${colors[Math.floor(Math.random()*colors.length)]}, transparent)`;
+      // Random blur
+      sparkle.style.filter = `blur(${Math.random()*2}px)`;
+      // Random animation duration
+      sparkle.style.animationDuration = 7 + Math.random() * 5 + 's';
+      document.body.appendChild(sparkle);
+
+      setTimeout(() => {
+        sparkle.remove();
+      }, 12000);
+    }
+
+    // Shooting star animation
+    function createShootingStar() {
+      const star = document.createElement('div');
+      star.style.position = 'fixed';
+      star.style.top = Math.random() * 60 + 10 + 'vh';
+      star.style.left = '-40px';
+      star.style.width = '60px';
+      star.style.height = '2px';
+      star.style.background = 'linear-gradient(90deg, #fff, #ffd6e8, transparent)';
+      star.style.opacity = 0.8;
+      star.style.borderRadius = '2px';
+      star.style.zIndex = 2000;
+      star.style.pointerEvents = 'none';
+      star.style.boxShadow = '0 0 8px 2px #fff6';
+      star.style.transition = 'transform 1.2s linear, opacity 0.5s linear';
+
+      document.body.appendChild(star);
+
+      setTimeout(() => {
+        star.style.transform = 'translateX(110vw) rotate(10deg)';
+        star.style.opacity = 0;
+      }, 10);
+
+      setTimeout(() => {
+        star.remove();
+      }, 1400);
+    }
+
+    setInterval(createSparkle, 250);
+    // Shooting star appears randomly every 3-8 seconds
+    setInterval(() => {
+      if (Math.random() > 0.6) createShootingStar();
+    }, 3000);
+  </script>
+</body>
+</html>

@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MannuQueen 💖</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #fddde6, #fcefee);
+      overflow-x: hidden;
+      position: relative;
+      color: #4b0c1d;
+      min-height: 100vh;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 3rem;
+      margin-top: 18vh;
+      animation: fadeInDown 2s ease-in-out forwards;
+    }
+
+    .message {
+      text-align: center;
+      font-size: 1.2rem;
+      max-width: 600px;
+      margin: 20px auto;
+      opacity: 0;
+      animation: fadeInUp 3s ease-in-out 1s forwards;
+      background: #fff0f7cc;
+      border-radius: 16px;
+      padding: 18px 24px;
+      box-shadow: 0 2px 12px #f7c9dc44;
+    }
+
+    @keyframes fadeInDown {
+      0% { transform: translateY(-50px); opacity: 0; }
+      100% { transform: translateY(0); opacity: 1; }
+    }
+    @keyframes fadeInUp {
+      0% { transform: translateY(50px); opacity: 0; }
+      100% { transform: translateY(0); opacity: 1; }
+    }
+
+    .heart {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: red;
+      transform: rotate(45deg);
+      animation: float 10s linear infinite;
+      z-index: 0;
+    }
+    .heart:before,
+    .heart:after {
+      content: '';
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: red;
+      border-radius: 50%;
+    }
+    .heart:before { top: -10px; left: 0; }
+    .heart:after { left: -10px; top: 0; }
+
+    @keyframes float {
+      0% { transform: translateY(100vh) rotate(45deg); opacity: 0; }
+      50% { opacity: 1; }
+      100% { transform: translateY(-10vh) rotate(45deg); opacity: 0; }
+    }
+
+    .whatsapp {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #25d366;
+      color: white;
+      padding: 12px 20px;
+      border-radius: 30px;
+      font-size: 1rem;
+      text-decoration: none;
+      box-shadow: 0 0 10px #25d36699;
+      transition: 0.3s ease;
+      z-index: 1001;
+    }
+    .whatsapp:hover { background: #1ebc5b; }
+
+    .navbar {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: #fff0f7;
+      box-shadow: 0 2px 6px #f7c9dc88;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 20px;
+      z-index: 1000;
+    }
+    .logo {
+      font-weight: bold;
+      font-size: 1.4rem;
+      color: #d6336c;
+    }
+    .toggle {
+      font-size: 2rem;
+      cursor: pointer;
+      display: none;
+      background: none;
+      border: none;
+      color: #d6336c;
+      margin-left: 10px;
+      z-index: 2001;
+    }
+    .nav-links {
+      list-style: none;
+      display: flex;
+      gap: 20px;
+      margin: 0;
+      padding: 0;
+      transition: left 0.3s ease;
+    }
+    .nav-links li a {
+      text-decoration: none;
+      color: #d6336c;
+      font-weight: 600;
+      transition: color 0.3s ease;
+    }
+    .nav-links li a:hover { color: #a3184d; }
+
+    @media screen and (max-width: 768px) {
+      .toggle { display: block; }
+      .nav-links {
+        position: absolute;
+        top: 60px;
+        left: -100%;
+        background: #fff5fb;
+        width: 100%;
+        flex-direction: column;
+        align-items: center;
+        padding: 10px 0;
+        z-index: 2000;
+        box-shadow: 0 4px 16px #f7c9dc44;
+      }
+      .nav-links.open { left: 0; }
+      .nav-links li { margin: 10px 0; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="logo">💖 MannuQueen</div>
+    <button class="toggle" id="toggleBtn" aria-label="Toggle menu">☰</button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html">🏠 Home</a></li>
+      <li><a href="hello.html">💬 First Hello</a></li>
+      <li><a href="gallery.html">📸 Gallery</a></li>
+      <li><a href="letter.html">💌 Letter</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <h1>Welcome, MannuQueen 🌷</h1>
+    <div class="message">
+      This little corner of the internet is just for you. <br />
+      A soft place full of light, love, and magic — just like your vibe. 💫<br />
+      Hope you smile when you see this. You’re truly special.
+    </div>
+  </main>
+
+  <a class="whatsapp" href="https://wa.me/923001234567?text=I%20just%20saw%20something%20adorable%20🌸" target="_blank">
+    💬 Text Me
+  </a>
+
+  <script>
+    function createHeart() {
+      const heart = document.createElement('div');
+      heart.classList.add('heart');
+      heart.style.left = Math.random() * 100 + 'vw';
+      heart.style.animationDuration = 5 + Math.random() * 5 + 's';
+      document.body.appendChild(heart);
+      setTimeout(() => { heart.remove(); }, 10000);
+    }
+    setInterval(createHeart, 300);
+
+    // Toggle menu for mobile
+    const toggleBtn = document.getElementById('toggleBtn');
+    const navLinks = document.getElementById('navLinks');
+    toggleBtn.addEventListener('click', function() {
+      navLinks.classList.toggle('open');
+    });
+
+    // Optional: Close menu when link is clicked (mobile UX)
+    document.querySelectorAll('.nav-links a').forEach(link => {
+      link.addEventListener('click', () => {
+        if(window.innerWidth <= 768) {
+          navLinks.classList.remove('open');
+        }
+      });
+    });
+  </script>
+</body>
+</html>
