@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Just a Few Messages... 💬</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MaNnu_QueEn 💖 Gallery</title>
   <style>
     body {
       margin: 0;
@@ -39,7 +39,7 @@
 
     .chat-container {
       margin-top: 100px;
-      max-width: 600px;
+      max-width: 750px;
       margin-left: auto;
       margin-right: auto;
       padding: 20px;
@@ -47,15 +47,16 @@
 
     .chat-card {
       background: #ffffffcc;
-      backdrop-filter: blur(5px);
-      margin: 20px 0;
-      padding: 15px 20px;
-      border-radius: 20px;
-      box-shadow: 0 4px 15px #f7c9dc55;
+      backdrop-filter: blur(6px);
+      margin: 25px 0;
+      padding: 20px;
+      border-radius: 25px;
+      box-shadow: 0 4px 25px #f7c9dc80;
       position: relative;
       animation: fadeInUp 1s ease forwards;
       opacity: 0;
       transform: translateY(30px);
+      transition: transform 0.5s, opacity 0.5s;
     }
 
     @keyframes fadeInUp {
@@ -73,6 +74,14 @@
 
     .message {
       font-size: 1.1rem;
+      margin-bottom: 10px;
+    }
+
+    .chat-card img {
+      width: 100%;
+      border-radius: 15px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      margin-top: 10px;
     }
 
     .bubble-heart {
@@ -98,62 +107,62 @@
         opacity: 0;
       }
     }
+
+    @media screen and (max-width: 600px) {
+      .chat-card {
+        padding: 15px;
+      }
+    }
   </style>
 </head>
 <body>
   <nav>
     <a href="index.html">🏠 Home</a>
     <a href="hello.html">💬 First Hello</a>
-    <a href="letter.html">🌙Letter</a>
-    <a href="hello.html">💖Special Message</a>
+    <a href="letter.html">🌙 Letter</a>
+    <a href="hello.html">💖 Special Message</a>
   </nav>
 
   <div class="chat-container">
+
+    <!-- CARD 1 -->
     <div class="chat-card">
       <div class="sender">Hamza:</div>
-      <div class="message">Such me single? Sai batau agar single ho toooo.</div>
+      <div class="message">Tumhari muskurahat, sabse pyari 💕</div>
+      <img src="image 1.jpg" alt="Smile Pic">
       <div class="bubble-heart"></div>
     </div>
 
-    <div class="chat-card">
-      <div class="sender">MaNnu_QueEn🌸:</div>
-      <div class="message">Hmm Q kiya hua?</div>
-    </div>
-
+    <!-- CARD 2 -->
     <div class="chat-card">
       <div class="sender">Hamza:</div>
-      <div class="message">Mujhe yaqeen nai a rha koi abhi bhi single ha meri tarah Instagram py. I can't believe this 😯</div>
+      <div class="message"> just for you 💖</div>
+      <img src="image 2.jpg" alt="Memory">
       <div class="bubble-heart"></div>
     </div>
 
-    <div class="chat-card">
-      <div class="sender">MaNnu_QueEn🌸:</div>
-      <div class="message">Ohh acha...</div>
-    </div>
-
-    <div class="chat-card">
-      <div class="sender">MaNnu_QueEn🌸:</div>
-      <div class="message">Apka intro?</div>
-    </div>
-
+    <!-- CARD 3 -->
     <div class="chat-card">
       <div class="sender">Hamza:</div>
-      <div class="message">My name Hamza. I am web developer.</div>
+      <div class="message">Tumhari aankhon mein chand sitare ✨</div>
+      <img src="image 3.jpg" alt="Eyes">
+      <div class="bubble-heart"></div>
     </div>
 
-    <div class="chat-card">
-      <div class="sender">MaNnu_QueEn🌸:</div>
-      <div class="message">From?</div>
-    </div>
-
+    <!-- CARD 4 -->
     <div class="chat-card">
       <div class="sender">Hamza:</div>
-      <div class="message">Pakistan city Rawalpindi.</div>
+      <div class="message">Tumhari style hi alag hai 😍</div>
+      <img src="images/style4.jpg" alt="Style">
+      <div class="bubble-heart"></div>
     </div>
 
+    <!-- CARD 5 -->
     <div class="chat-card">
-      <div class="sender">MaNnu_QueEn🌸:</div>
-      <div class="message">Ohh asha ahsa Uhnm</div>
+      <div class="sender">Hamza:</div>
+      <div class="message">Queen of my dreams 👑💫</div>
+      <img src="images/queen5.jpg" alt="Queen">
+      <div class="bubble-heart"></div>
     </div>
   </div>
 
@@ -164,10 +173,7 @@
       heart.style.left = Math.random() * 100 + 'vw';
       heart.style.animationDuration = 5 + Math.random() * 5 + 's';
       document.body.appendChild(heart);
-
-      setTimeout(() => {
-        heart.remove();
-      }, 10000);
+      setTimeout(() => heart.remove(), 10000);
     }
 
     setInterval(floatHeart, 600);
