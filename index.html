@@ -35,6 +35,46 @@
       box-shadow: 0 2px 12px #f7c9dc44;
     }
 
+    .loyalty {
+      text-align: center;
+      max-width: 700px;
+      margin: 40px auto;
+      background: #fff9fc;
+      padding: 25px;
+      border-radius: 20px;
+      box-shadow: 0 4px 14px #ffbfd8aa;
+      font-size: 1.1rem;
+      line-height: 1.8;
+      color: #9b214f;
+    }
+
+    .loyalty h2 {
+      font-size: 2rem;
+      margin-bottom: 20px;
+      color: #c2185b;
+    }
+
+    .typewriter {
+      text-align: center;
+      font-size: 1.3rem;
+      font-family: 'Courier New', monospace;
+      border-right: 2px solid #c2185b;
+      white-space: nowrap;
+      overflow: hidden;
+      width: 0;
+      margin: 40px auto;
+      animation: typing 6s steps(50, end) forwards, blink 0.7s step-end infinite;
+    }
+
+    @keyframes typing {
+      from { width: 0; }
+      to { width: 80%; }
+    }
+
+    @keyframes blink {
+      50% { border-color: transparent; }
+    }
+
     @keyframes fadeInDown {
       0% { transform: translateY(-50px); opacity: 0; }
       100% { transform: translateY(0); opacity: 1; }
@@ -194,9 +234,21 @@
       A soft place full of light, love, and magic — just like your vibe. 💫<br />
       Hope you smile when you see this. You’re truly special.
     </div>
+
+    <div class="loyalty">
+      <h2>💖 Promises Just for You</h2>
+      <p>🔐 Har pal mein sirf tumhara khayal rehega.</p>
+      <p>🕊️ Waqt badal sakta hai, par meri wafa nahi.</p>
+      <p>💫 Tum meri har dua ka hissa ho, har pal ki roshni ho.</p>
+      <p>💍 Zindagi bhar ka wada, sirf MannuQueen se.</p>
+    </div>
+
+    <div class="typewriter">
+      Dear MannuQueen, you are not just my world... you are the reason it exists.
+    </div>
   </main>
 
-  <a class="whatsapp" href="https://wa.me/923001234567?text=I%20just%20saw%20something%20adorable%20🌸" target="_blank">
+  <a class="whatsapp" href="https://wa.me/923709703473?text=I%20just%20saw%20something%20adorable%20🌸" target="_blank">
     💬 Text Me
   </a>
 
@@ -217,7 +269,6 @@
       navLinks.classList.toggle('open');
     });
 
-    // Close menu on link click (mobile only)
     document.querySelectorAll('.nav-links a').forEach(link => {
       link.addEventListener('click', () => {
         if (window.innerWidth <= 768) {
