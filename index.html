@@ -1,281 +1,345 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MannuQueen 💖</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Universe In A Bottle — MannuQueen ✨</title>
+  <meta name="description" content="An in-browser cinematic proposal: 3D galaxy, audio-reactive particles, holographic ring, memory orbs, and a grand 'YES' finale. Single-file, no server needed." />
+  <meta name="color-scheme" content="dark light">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
   <style>
-    body {
-      margin: 0;
-      font-family: 'Poppins', sans-serif;
-      background: linear-gradient(135deg, #fddde6, #fcefee);
-      overflow-x: hidden;
-      position: relative;
-      color: #4b0c1d;
-      min-height: 100vh;
-    }
+    :root{--accent:#ff6ea1;--deep:#2a1220;--glass:rgba(255,255,255,0.06)}
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;background:#05020a;color:#fff;font-family:'Poppins',system-ui,Segoe UI,Roboto,Arial}
+    a{color:inherit}
+    /* Topbar */
+    .topbar{position:fixed;left:50%;transform:translateX(-50%);top:14px;width:min(1200px,96%);display:flex;justify-content:space-between;align-items:center;padding:10px 14px;border-radius:12px;background:linear-gradient(180deg,rgba(255,255,255,0.03),rgba(255,255,255,0.01));backdrop-filter:blur(6px);z-index:2000}
+    .brand{display:flex;gap:12px;align-items:center}
+    .logo{font-family:'Playfair Display';font-weight:700;color:var(--accent);font-size:1.15rem}
+    .controls{display:flex;gap:8px;align-items:center}
+    .btn{border:0;padding:10px 14px;border-radius:10px;cursor:pointer;font-weight:700;background:rgba(255,255,255,0.04);color:#fff}
+    .btn.primary{background:linear-gradient(90deg,#ff7dbb,#ffb6d9);color:#210214}
+    .menu-toggle{background:transparent;border:0;color:#ffd6e7;font-weight:800}
 
-    h1 {
-      text-align: center;
-      font-size: 3rem;
-      margin-top: 18vh;
-      animation: fadeInDown 2s ease-in-out forwards;
-    }
+    /* canvas stage */
+    #stage{width:100vw;height:100vh;display:block}
 
-    .message {
-      text-align: center;
-      font-size: 1.2rem;
-      max-width: 600px;
-      margin: 20px auto;
-      opacity: 0;
-      animation: fadeInUp 3s ease-in-out 1s forwards;
-      background: #fff0f7cc;
-      border-radius: 16px;
-      padding: 18px 24px;
-      box-shadow: 0 2px 12px #f7c9dc44;
-    }
+    /* overlays */
+    .hud{position:fixed;left:50%;transform:translateX(-50%);bottom:28px;width:min(1100px,96%);display:flex;justify-content:space-between;align-items:center;padding:10px 14px;border-radius:12px;background:linear-gradient(180deg,rgba(0,0,0,0.25),rgba(0,0,0,0.18));z-index:2000}
+    .hud .left{display:flex;gap:12px;align-items:center}
+    .title{font-family:'Playfair Display';font-weight:700;font-size:1.25rem;color:#ffd6e7}
+    .subtitle{font-size:0.92rem;color:#ffd6e780}
 
-    .loyalty {
-      text-align: center;
-      max-width: 700px;
-      margin: 40px auto;
-      background: #fff9fc;
-      padding: 25px;
-      border-radius: 20px;
-      box-shadow: 0 4px 14px #ffbfd8aa;
-      font-size: 1.1rem;
-      line-height: 1.8;
-      color: #9b214f;
-    }
+    /* menu overlay */
+    .menu-overlay{position:fixed;inset:0;background:linear-gradient(180deg, rgba(11,6,8,0.6), rgba(11,6,8,0.8));display:none;align-items:center;justify-content:center;z-index:2200}
+    .menu-overlay.open{display:flex}
+    .menu-card{width:min(980px,94%);padding:22px;border-radius:14px;background:linear-gradient(180deg,#fff3f8,#fffafc);color:#4a1029}
+    .menu-grid{display:grid;grid-template-columns:1fr 280px;gap:16px}
+    .menu-links a{display:block;padding:12px 14px;border-radius:10px;background:linear-gradient(90deg,#ffd6e7,#fff4fb);margin-bottom:10px;text-decoration:none;color:#6b1637;font-weight:800}
 
-    .loyalty h2 {
-      font-size: 2rem;
-      margin-bottom: 20px;
-      color: #c2185b;
-    }
+    /* modal for memories */
+    .modal{position:fixed;inset:0;display:grid;place-items:center;background:linear-gradient(180deg,rgba(0,0,0,0.6),rgba(0,0,0,0.8));opacity:0;pointer-events:none;transition:all .24s;z-index:2300}
+    .modal.open{opacity:1;pointer-events:auto}
+    .modal-card{width:min(880px,96%);background:linear-gradient(180deg,#fff,#fff7fb);padding:18px;border-radius:12px}
 
-    .typewriter {
-      text-align: center;
-      font-size: 1.3rem;
-      font-family: 'Courier New', monospace;
-      border-right: 2px solid #c2185b;
-      white-space: nowrap;
-      overflow: hidden;
-      width: 0;
-      margin: 40px auto;
-      animation: typing 6s steps(50, end) forwards, blink 0.7s step-end infinite;
-    }
+    /* final splash */
+    .final-card{position:fixed;inset:10% 6%;display:none;z-index:2400;align-items:center;justify-content:center}
+    .final-card.show{display:flex}
+    .final-inner{width:100%;background:linear-gradient(180deg,#fff6fb,#fff);padding:24px;border-radius:12px;text-align:center;color:#6b1637}
 
-    @keyframes typing {
-      from { width: 0; }
-      to { width: 80%; }
-    }
+    /* accessible hidden */
+    .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 
-    @keyframes blink {
-      50% { border-color: transparent; }
-    }
-
-    @keyframes fadeInDown {
-      0% { transform: translateY(-50px); opacity: 0; }
-      100% { transform: translateY(0); opacity: 1; }
-    }
-
-    @keyframes fadeInUp {
-      0% { transform: translateY(50px); opacity: 0; }
-      100% { transform: translateY(0); opacity: 1; }
-    }
-
-    .heart {
-      position: absolute;
-      width: 20px;
-      height: 20px;
-      background: red;
-      transform: rotate(45deg);
-      animation: float 10s linear infinite;
-      z-index: 0;
-    }
-
-    .heart:before,
-    .heart:after {
-      content: '';
-      position: absolute;
-      width: 20px;
-      height: 20px;
-      background: red;
-      border-radius: 50%;
-    }
-
-    .heart:before { top: -10px; left: 0; }
-    .heart:after { left: -10px; top: 0; }
-
-    @keyframes float {
-      0% { transform: translateY(100vh) rotate(45deg); opacity: 0; }
-      50% { opacity: 1; }
-      100% { transform: translateY(-10vh) rotate(45deg); opacity: 0; }
-    }
-
-    .whatsapp {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      background: #25d366;
-      color: white;
-      padding: 12px 20px;
-      border-radius: 30px;
-      font-size: 1rem;
-      text-decoration: none;
-      box-shadow: 0 0 10px #25d36699;
-      transition: 0.3s ease;
-      z-index: 1001;
-    }
-
-    .whatsapp:hover { background: #1ebc5b; }
-
-    .navbar {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      background: #fff0f7;
-      box-shadow: 0 2px 6px #f7c9dc88;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 10px 20px;
-      z-index: 1000;
-      height: 60px;
-    }
-
-    .logo {
-      font-weight: bold;
-      font-size: 1.4rem;
-      color: #d6336c;
-      z-index: 2002;
-    }
-
-    .toggle {
-      font-size: 2.8rem;
-      cursor: pointer;
-      display: none;
-      background: none;
-      border: none;
-      color: #d6336c;
-      z-index: 2001;
-      position: relative;
-    }
-
-    .nav-links {
-      list-style: none;
-      display: flex;
-      gap: 20px;
-      margin: 0;
-      padding: 0;
-      transition: transform 0.3s ease;
-      z-index: 2000;
-    }
-
-    .nav-links li a {
-      text-decoration: none;
-      color: #d6336c;
-      font-weight: 600;
-      transition: color 0.3s ease;
-    }
-
-    .nav-links li a:hover { color: #a3184d; }
-
-    @media screen and (max-width: 768px) {
-      .toggle {
-        display: block;
-        font-size: 3.2rem;
-        padding: 5px 10px;
-      }
-
-      .nav-links {
-        position: fixed;
-        top: 60px;
-        left: 0;
-        width: 100vw;
-        background: #fff5fb;
-        flex-direction: column;
-        align-items: center;
-        padding: 10px 0 20px 0;
-        box-shadow: 0 4px 16px #f7c9dc44;
-        transform: translateY(-200%);
-        transition: transform 0.3s ease;
-        gap: 0;
-      }
-
-      .nav-links.open {
-        transform: translateY(0);
-      }
-
-      .nav-links li {
-        margin: 14px 0;
-      }
-    }
+    /* small responsive */
+    @media(max-width:880px){ .menu-grid{grid-template-columns:1fr} .hud{padding:8px;flex-direction:column;gap:8px} }
   </style>
 </head>
 <body>
-  <nav class="navbar">
-    <div class="logo">💖 MannuQueen</div>
-    <button class="toggle" id="toggleBtn" aria-label="Toggle menu">☰</button>
-    <ul class="nav-links" id="navLinks">
-      <li><a href="index.html">🏠 Home</a></li>
-      <li><a href="hello.html">💬 First Hello</a></li>
-      <li><a href="gallery.html">📸 Gallery</a></li>
-      <li><a href="letter.html">💌 Letter</a></li>
-    </ul>
-  </nav>
-
-  <main>
-    <h1>Welcome, MannuQueen 🌷</h1>
-    <div class="message">
-      This little corner of the internet is just for you. <br />
-      A soft place full of light, love, and magic — just like your vibe. 💫<br />
-      Hope you smile when you see this. You’re truly special.
+  <header class="topbar" role="banner">
+    <div class="brand"><div class="logo">Universe in a Bottle</div><div class="subtitle">An experience for MannuQueen</div></div>
+    <div class="controls">
+      <button class="btn" id="helpBtn">How it works</button>
+      <button class="btn" id="menuBtn">Menu</button>
+      <button class="btn primary" id="startBtn">Start the Moment</button>
     </div>
+  </header>
 
-    <div class="loyalty">
-      <h2>💖 Promises Just for You</h2>
-      <p>🔐 Har pal mein sirf tumhara khayal rehega.</p>
-      <p>🕊️ Waqt badal sakta hai, par meri wafa nahi.</p>
-      <p>💫 Tum meri har dua ka hissa ho, har pal ki roshni ho.</p>
-      <p>💍 Zindagi bhar ka wada, sirf MannuQueen se.</p>
+  <!-- Three.js stage -->
+  <canvas id="stage"></canvas>
+
+  <div class="hud" role="status" aria-live="polite">
+    <div class="left"><div class="title">For — MannuQueen</div><div class="subtitle">Move your mouse / tilt your phone to explore</div></div>
+    <div class="right"><button class="btn" id="audioBtn">🔈 Sound: Off</button><button class="btn primary" id="askNow">Ask Now</button></div>
+  </div>
+
+  <!-- menu overlay -->
+  <div class="menu-overlay" id="menuOverlay" aria-hidden="true">
+    <div class="menu-card" role="dialog" aria-modal="true">
+      <div class="menu-grid">
+        <div>
+          <h2 style="margin:0 0 6px;font-family:Playfair Display;color:#6b1637">Menu — Jump to scene</h2>
+          <div class="menu-links">
+            <a href="#" data-target="landing">Landing (Starry)</a>
+            <a href="#" data-target="path">Petal Path</a>
+            <a href="#" data-target="mem">Memories Orb</a>
+            <a href="#" data-target="ring">The Ring Reveal</a>
+            <a href="#" data-target="final">Finale</a>
+          </div>
+        </div>
+        <div style="background:linear-gradient(180deg,#fff0f7,#fff6fb);padding:14px;border-radius:10px">
+          <div style="font-weight:800;color:#6b1637">Preview</div>
+          <div style="margin-top:8px;color:#7a1f44;font-size:0.95rem">This menu shows a live mini-preview of the scene and controls. Click "Ask Now" to jump to the spotlight question.</div>
+          <div style="display:flex;gap:8px;margin-top:10px"><button class="btn primary" id="menuAsk">Ask Now</button><button class="btn" id="menuClose">Close</button></div>
+        </div>
+      </div>
     </div>
+  </div>
 
-    <div class="typewriter">
-      Dear MannuQueen, you are not just my world... you are the reason it exists.
+  <!-- modal for memory -->
+  <div class="modal" id="modal" aria-hidden="true">
+    <div class="modal-card" role="dialog">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px"><strong style="font-family:Playfair Display">Memory</strong><button class="btn" id="closeModal">Close</button></div>
+      <div id="modalContent">A memory will appear here (replace with your photos later).</div>
     </div>
-  </main>
+  </div>
 
-  <a class="whatsapp" href="https://wa.me/923709703473?text=I%20just%20saw%20something%20adorable%20🌸" target="_blank">
-    💬 Text Me
-  </a>
+  <!-- final card -->
+  <div class="final-card" id="finalCard" aria-hidden="true">
+    <div class="final-inner">
+      <h2 style="font-family:Playfair Display;margin:0 0 8px">She said YES ✨</h2>
+      <p style="margin:0 0 12px">A moment captured — download your keepsake or send a live message.</p>
+      <div style="display:flex;gap:12px;justify-content:center;margin-top:12px">
+        <button class="btn primary" id="sendWA">Send WhatsApp</button>
+        <button class="btn" id="downloadPNG">Download Keepsake</button>
+      </div>
+    </div>
+  </div>
 
+  <!-- scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/three@0.164.0/build/three.min.js"></script>
   <script>
-    function createHeart() {
-      const heart = document.createElement('div');
-      heart.classList.add('heart');
-      heart.style.left = Math.random() * 100 + 'vw';
-      heart.style.animationDuration = 5 + Math.random() * 5 + 's';
-      document.body.appendChild(heart);
-      setTimeout(() => { heart.remove(); }, 10000);
+    // Single-file premium proposal experience: "Universe in a Bottle"
+    // Key features implemented client-side:
+    // - Particle galaxy (Points)
+    // - Constellation/text morph via particle target positions (canvas-sampled)
+    // - Interactive memory orbs (spheres) opening modal
+    // - Holographic ring (torus) reveal with animation
+    // - Audio-reactive particle pulsing using WebAudio (simple oscillator fallback)
+    // - 'Ask Now' spotlight and YES finale -> confetti + final card + WhatsApp open
+
+    // ---- config & state ----
+    const phoneNumber = '923709703473'; // confirm/change if needed
+    const width = window.innerWidth, height = window.innerHeight;
+
+    let scene, camera, renderer, clock;
+    let particles, particleGeo, particleMat, particleCount = 9000;
+    let ringMesh;
+    let memoryOrbs = [];
+    let targets = []; // for morph to text
+    let audioCtx, analyser, dataArray;
+    let audioOn = false;
+
+    const canvas = document.getElementById('stage');
+
+    function init(){
+      scene = new THREE.Scene();
+      camera = new THREE.PerspectiveCamera(60, window.innerWidth/window.innerHeight, 0.1, 2000);
+      camera.position.set(0, 0, 120);
+      renderer = new THREE.WebGLRenderer({canvas, antialias:true, alpha:true});
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      clock = new THREE.Clock();
+
+      // subtle fog for depth
+      scene.fog = new THREE.FogExp2(0x05020a, 0.0008);
+
+      createGalaxy();
+      createMemoryOrbs();
+      createRing();
+
+      window.addEventListener('resize', onResize);
+      document.addEventListener('mousemove', onMouseMove);
+      animate();
     }
-    setInterval(createHeart, 300);
 
-    const toggleBtn = document.getElementById('toggleBtn');
-    const navLinks = document.getElementById('navLinks');
-    toggleBtn.addEventListener('click', () => {
-      navLinks.classList.toggle('open');
-    });
+    // ---- galaxy particles ----
+    function createGalaxy(){
+      particleGeo = new THREE.BufferGeometry();
+      const positions = new Float32Array(particleCount * 3);
+      const colors = new Float32Array(particleCount * 3);
+      for(let i=0;i<particleCount;i++){
+        const r = Math.random()*600 + 20;
+        const theta = Math.random()*Math.PI*2;
+        const phi = (Math.random()-0.5) * Math.PI/6; // thin disk
+        const x = Math.cos(theta) * r * Math.cos(phi);
+        const y = Math.sin(phi) * (Math.random()*120 - 60);
+        const z = Math.sin(theta) * r * Math.cos(phi);
+        positions[i*3]=x; positions[i*3+1]=y; positions[i*3+2]=z;
+        const c = new THREE.Color().setHSL(0.95 + Math.random()*0.05, 0.6, 0.6 - Math.random()*0.2);
+        colors[i*3]=c.r; colors[i*3+1]=c.g; colors[i*3+2]=c.b;
+        targets.push(new THREE.Vector3((Math.random()-0.5)*1200, (Math.random()-0.5)*400, (Math.random()-0.5)*1200)); // fallback targets
+      }
+      particleGeo.setAttribute('position', new THREE.BufferAttribute(positions,3));
+      particleGeo.setAttribute('color', new THREE.BufferAttribute(colors,3));
 
-    document.querySelectorAll('.nav-links a').forEach(link => {
-      link.addEventListener('click', () => {
-        if (window.innerWidth <= 768) {
-          navLinks.classList.remove('open');
-        }
+      particleMat = new THREE.PointsMaterial({size:1.6,vertexColors:true,transparent:true,opacity:0.95,depthWrite:false});
+      particles = new THREE.Points(particleGeo, particleMat);
+      scene.add(particles);
+    }
+
+    // ---- create memory orbs (floating spheres) ----
+    function createMemoryOrbs(){
+      const orbGeo = new THREE.SphereGeometry(6, 32, 24);
+      const orbMat = new THREE.MeshStandardMaterial({color:0xffcfe5,metalness:0.2,roughness:0.3,transparent:true,opacity:0.95});
+      const light = new THREE.PointLight(0xffb6d9, 0.6, 400);
+      light.position.set(0,60,120); scene.add(light);
+      const amb = new THREE.AmbientLight(0xffffff,0.2); scene.add(amb);
+
+      const positions = [ [-38,-20,-40], [42,-10,-20], [0,38,-10] ];
+      const captions = [ 'First hello — your smile', 'Late-night talks — our secrets', 'Your laugh — my favorite song' ];
+      positions.forEach((pos,i)=>{
+        const mesh = new THREE.Mesh(orbGeo, orbMat.clone());
+        mesh.position.set(pos[0], pos[1], pos[2]);
+        mesh.userData = {caption: captions[i]};
+        scene.add(mesh); memoryOrbs.push(mesh);
       });
+
+      // raycaster for click
+      const raycaster = new THREE.Raycaster();
+      const mouse = new THREE.Vector2();
+      function onClick(e){
+        mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
+        mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
+        raycaster.setFromCamera(mouse, camera);
+        const intersects = raycaster.intersectObjects(memoryOrbs);
+        if(intersects.length){ const hit = intersects[0].object; openModal(hit.userData.caption); }
+      }
+      window.addEventListener('click', onClick);
+    }
+
+    // ---- holographic ring ----
+    function createRing(){
+      const torGeo = new THREE.TorusGeometry(14,3.6,64,128);
+      const mat = new THREE.MeshStandardMaterial({color:0xffc6e0,metalness:0.8,roughness:0.2,envMapIntensity:1,transparent:true,opacity:0.98});
+      ringMesh = new THREE.Mesh(torGeo, mat);
+      ringMesh.position.set(0,-6,-30); ringMesh.scale.set(0.0,0.0,0.0);
+      scene.add(ringMesh);
+    }
+
+    // ---- morph particles to text (constellation) ----
+    function morphToText(text, duration=2200){
+      // render text to canvas
+      const tcanvas = document.createElement('canvas'); const tw=800, th=200; tcanvas.width=tw; tcanvas.height=th; const ctx=tcanvas.getContext('2d');
+      ctx.fillStyle='black'; ctx.fillRect(0,0,tw,th); ctx.font='bold 130px Playfair Display, serif'; ctx.fillStyle='white'; ctx.textAlign='center'; ctx.fillText(text, tw/2, th/1.25);
+      const img = ctx.getImageData(0,0,tw,th).data;
+      const positions = particleGeo.getAttribute('position');
+      const posArr = positions.array;
+      const newTargets = [];
+      // sample points from text image
+      for(let y=0;y<th;y+=6){ for(let x=0;x<tw;x+=6){ const idx=(y*tw + x)*4; if(img[idx+0] > 200){ // white pixel
+            const nx = (x - tw/2) * 1.2; const ny = (th/2 - y) * 0.7; const nz = (Math.random()-0.5)*60; newTargets.push(new THREE.Vector3(nx, ny, nz));
+          } } }
+      // shuffle and assign as many as particles
+      for(let i=0;i<particleCount;i++){ const t = newTargets[i % newTargets.length] || new THREE.Vector3((Math.random()-0.5)*600,(Math.random()-0.5)*200,(Math.random()-0.5)*600); targets[i] = t.clone(); }
+      // animate positions smoothly
+      const start = performance.now(); const startPositions = new Float32Array(posArr);
+      function animateMorph(now){ const p = Math.min(1,(now-start)/duration); const ease = p<0.5 ? 2*p*p : -1 + (4-2*p)*p; for(let i=0;i<particleCount;i++){ const tx = targets[i].x, ty = targets[i].y, tz = targets[i].z; const si = i*3; posArr[si] = startPositions[si] + (tx - startPositions[si]) * ease; posArr[si+1] = startPositions[si+1] + (ty - startPositions[si+1]) * ease; posArr[si+2] = startPositions[si+2] + (tz - startPositions[si+2]) * ease; } particleGeo.attributes.position.needsUpdate=true; if(p<1) requestAnimationFrame(animateMorph); }
+      requestAnimationFrame(animateMorph);
+    }
+
+    // ---- animation loop ----
+    let mouseX=0, mouseY=0;
+    function animate(){ requestAnimationFrame(animate); const t = clock.getElapsedTime(); // rotate the galaxy slowly
+      particles.rotation.y = t * 0.02; particles.rotation.x = Math.sin(t*0.03)*0.01;
+      // audio-reactive: scale particle material size slightly
+      if(analyser && dataArray){ let sum=0; for(let i=0;i<dataArray.length;i++){ sum += dataArray[i]; } const avg = sum / dataArray.length / 256; particleMat.size = 1.6 + avg*6; }
+      // ring subtle floating
+      if(ringMesh){ ringMesh.rotation.x += 0.006; ringMesh.rotation.y += 0.009; }
+      // camera parallax
+      camera.position.x += (mouseX - camera.position.x) * 0.04; camera.position.y += (-mouseY - camera.position.y) * 0.04; camera.lookAt(0,0,0);
+      renderer.render(scene, camera);
+    }
+
+    function onResize(){ renderer.setSize(window.innerWidth, window.innerHeight); camera.aspect = window.innerWidth / window.innerHeight; camera.updateProjectionMatrix(); }
+    function onMouseMove(e){ mouseX = (e.clientX - window.innerWidth/2) * 0.02; mouseY = (e.clientY - window.innerHeight/2) * 0.02; }
+
+    // ---- UI interactions ----
+    document.getElementById('menuBtn').addEventListener('click', ()=>{ document.getElementById('menuOverlay').classList.toggle('open'); });
+    document.getElementById('menuClose').addEventListener('click', ()=>{ document.getElementById('menuOverlay').classList.remove('open'); });
+    document.querySelectorAll('.menu-links a').forEach(a=> a.addEventListener('click', (e)=>{ e.preventDefault(); const t = a.dataset.target; if(t==='path') document.getElementById('path').scrollIntoView({behavior:'smooth'}); if(t==='mem') openMemory(); if(t==='ring') revealRing(); if(t==='final') showFinal(); document.getElementById('menuOverlay').classList.remove('open'); }));
+
+    // start the cinematic moment
+    document.getElementById('startBtn').addEventListener('click', ()=>{ // begin sequence
+      // 1. morph to her name
+      morphToText('MannuQueen');
+      setTimeout(()=> morphToText('Will you marry me?'), 3200);
+      // 2. after some time, reveal ring
+      setTimeout(()=> revealRing(), 5400);
     });
+
+    // 'Ask Now' - jump to question spotlight
+    document.getElementById('askNow').addEventListener('click', ()=>{
+      morphToText('Will you marry me?');
+      setTimeout(()=> revealRing(true), 2200);
+    });
+
+    // open memory modal
+    const modal = document.getElementById('modal');
+    function openModal(text){ modal.classList.add('open'); modal.setAttribute('aria-hidden','false'); document.getElementById('modalContent').innerText = text; }
+    document.getElementById('closeModal').addEventListener('click', ()=>{ modal.classList.remove('open'); modal.setAttribute('aria-hidden','true'); });
+    function openMemory(){ openModal('These are the sweet memories — replace these with your photos later.'); }
+
+    // reveal ring animation
+    function revealRing(fast=false){ // scale ring up, do particle burst
+      let dur = fast ? 900 : 1500;
+      const start = performance.now(); const startScale = ringMesh.scale.x; function step(now){ const p = Math.min(1,(now-start)/dur); const e = (--p)*p*p+1; ringMesh.scale.set(e,e,e); // add bloom-like particle burst
+        if(e<1) requestAnimationFrame(step); else { burstParticles(); setTimeout(()=> showFinal(), 1200); } }
+      requestAnimationFrame(step);
+    }
+
+    // particle burst effect (temporary particles)
+    function burstParticles(){ for(let i=0;i<120;i++){ const sprite = document.createElement('div'); sprite.style.position='fixed'; sprite.style.left = (50 + (Math.random()*40-20)) + '%'; sprite.style.top = (50 + (Math.random()*40-20)) + '%'; sprite.style.width = sprite.style.height = (6 + Math.random()*18) + 'px'; sprite.style.background = Math.random()>.5 ? '#ff80b3' : '#ffd6e7'; sprite.style.borderRadius = '4px'; sprite.style.transform = 'rotate(45deg)'; sprite.style.zIndex = 2500; document.body.appendChild(sprite); (function(el){ el.animate([{transform:'translateY(0) rotate(0deg)', opacity:1},{transform:'translateY(80vh) rotate(360deg)', opacity:0}],{duration:1400+Math.random()*1000,easing:'cubic-bezier(.2,.8,.2,1)'}); setTimeout(()=> el.remove(), 3000); })(sprite); }
+    }
+
+    // final finale
+    function showFinal(){ document.getElementById('finalCard').classList.add('show'); document.getElementById('finalCard').setAttribute('aria-hidden','false'); }
+    document.getElementById('sendWA').addEventListener('click', ()=>{ sendWhatsApp('YES! 💍 I said yes to you, MannuQueen! I love you.'); });
+
+    // download PNG keepsake (capture canvas + overlay text)
+    document.getElementById('downloadPNG').addEventListener('click', ()=>{
+      // draw canvas to temp canvas and download
+      const tmp = document.createElement('canvas'); tmp.width = window.innerWidth; tmp.height = window.innerHeight; const ctx = tmp.getContext('2d');
+      ctx.fillStyle = '#0b0810'; ctx.fillRect(0,0,tmp.width,tmp.height);
+      // draw stage
+      ctx.drawImage(canvas, 0, 0, tmp.width, tmp.height);
+      // overlay message
+      ctx.font = '48px Playfair Display'; ctx.fillStyle='white'; ctx.textAlign='center'; ctx.fillText('She said YES — MannuQueen', tmp.width/2, tmp.height*0.12);
+      const url = tmp.toDataURL('image/png'); const a = document.createElement('a'); a.href = url; a.download = 'mammu_yes.png'; a.click();
+    });
+
+    // WhatsApp helper
+    function sendWhatsApp(msg){ const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(msg)}`; window.open(url, '_blank'); }
+
+    // Audio: create basic ambient oscillator + analyser for reactivity
+    document.getElementById('audioBtn').addEventListener('click', async ()=>{
+      if(!audioOn){ try{ audioCtx = new (window.AudioContext || window.webkitAudioContext)(); const o = audioCtx.createOscillator(); const g = audioCtx.createGain(); o.type = 'sine'; o.frequency.value = 220; g.gain.value = 0.0001; o.connect(g); g.connect(audioCtx.destination); // subtle background
+          // create analyser
+          analyser = audioCtx.createAnalyser(); analyser.fftSize = 256; const source = audioCtx.createOscillator(); source.type = 'sine'; source.frequency.value = 110; const sg = audioCtx.createGain(); sg.gain.value = 0.0004; source.connect(sg); sg.connect(analyser); analyser.connect(audioCtx.destination); source.start(); o.start();
+          dataArray = new Uint8Array(analyser.frequencyBinCount);
+          audioOn = true; document.getElementById('audioBtn').innerText = '🔊 Sound: On';
+        } catch(e){ alert('Audio failed to start — your browser may block autoplay. Click Start the Moment then try again.'); }
+      } else { // stop
+        if(audioCtx) audioCtx.close(); audioOn=false; document.getElementById('audioBtn').innerText = '🔈 Sound: Off'; }
+    });
+
+    // confetti fallback and cleanup
+    function cleanup(){ if(scene){ while(scene.children.length) scene.remove(scene.children[0]); } }
+
+    // init and safety fallback
+    try{ init(); } catch(e){ console.error('WebGL init failed', e); document.body.innerHTML = '<div style="padding:40px;color:#fff;background:#111;">Your browser does not support WebGL — open this page in Chrome/Edge/Firefox (latest) for the full experience.</div>'; }
+
+    // small accessibility: keyboard trigger for Ask Now
+    document.addEventListener('keydown', (e)=>{ if(e.key==='Enter') document.getElementById('askNow').click(); if(e.key==='Escape'){ document.getElementById('menuOverlay').classList.remove('open'); document.getElementById('finalCard').classList.remove('show'); } });
   </script>
 </body>
 </html>
